@@ -9,7 +9,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class MvcConfigs implements WebMvcConfigurer{
 	
-	public static final String UPLOAD_DIR = "photos";
+	private static final String UPLOAD_DIR = "photos";
 
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -18,7 +18,7 @@ public class MvcConfigs implements WebMvcConfigurer{
 
 	private void exposeDirectory(String uploadDir, ResourceHandlerRegistry registry) {
 		Path path = Paths.get(uploadDir);
-		registry.addResourceHandler("/"+uploadDir+"/**").addResourceLocations("file:"+path.toAbsolutePath()+"/");
+		registry.addResourceHandler("/"+ uploadDir +"/**").addResourceLocations("file:"+path.toAbsolutePath()+"/");
 	} 
 	
 	

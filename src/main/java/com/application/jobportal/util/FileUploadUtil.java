@@ -16,7 +16,7 @@ public class FileUploadUtil {
 		if(!Files.exists(uploadPath)) {
 			Files.createDirectories(uploadPath);
 		}
-		try(InputStream inputStream = multipartFile.getInputStream()){
+		try(InputStream inputStream = multipartFile.getInputStream();){
 			Path path = uploadPath.resolve(filename);
 			System.out.println("filePath "+path);
 			System.out.println("filepath"+filename);
