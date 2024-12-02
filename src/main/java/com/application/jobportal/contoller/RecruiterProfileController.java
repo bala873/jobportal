@@ -26,56 +26,57 @@ import com.application.jobportal.util.FileUploadUtil;
 @RequestMapping("/recruiter-profile")
 public class RecruiterProfileController {
 
-	private final UsersRepository usersRepository;
-	private final RecruiterProfileService recruiterProfileService;
-	
-	public RecruiterProfileController(UsersRepository usersRepository, RecruiterProfileService recruiterProfileService) {
-		super();
-		this.usersRepository = usersRepository;
-		this.recruiterProfileService=recruiterProfileService;
-	}
+    private final UsersRepository usersRepository;
+    private final RecruiterProfileService recruiterProfileService;
 
-	@GetMapping("/")
-	public String recruiterProfile(Model model) {
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		
-		if(!(authentication instanceof AnonymousAuthenticationToken)) {
-			String currentUsername = authentication.getName();
-			Users users = usersRepository.findByEmail(currentUsername).orElseThrow(() -> new UsernameNotFoundException("Could Not Found UserName"));
-			Optional<RecruiterProfile> recruiterProfile = recruiterProfileService.getOne(users.getUserId());
-			
-			if(!recruiterProfile.isEmpty())
-				model.addAttribute("profile",recruiterProfile.get());
-		}
-		
-		return "recruiter_profile";
-	}
-	
-	@PostMapping("/addNew")
-	public String addNew(RecruiterProfile recruiterProfile, @RequestParam("image")
-						MultipartFile multipartFile, Model model) {
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		if(!(authentication instanceof AnonymousAuthenticationToken)) {
-			String currentUsername = authentication.getName();
-			Users users = usersRepository.findByEmail(currentUsername).orElseThrow(() -> new UsernameNotFoundException("Could Not Found User"));
-			recruiterProfile.setUserId(users);
-			recruiterProfile.setUserAccountId(users.getUserId());
-	    }
-		model.addAttribute("profile",recruiterProfile);
-		String fileName = "";
-		if(!multipartFile.getOriginalFilename().equals("")) {
-			fileName = StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
-			recruiterProfile.setProfilePhoto(fileName);
-		}
-		RecruiterProfile savedUser = recruiterProfileService.addNew(recruiterProfile);
-	
-		String uploadDir = "photos/recruiter/"+ savedUser.getUserAccountId();
-		try {
-			FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-		
-		return "redirect:/dashboard/";
-	}
+    public RecruiterProfileController(UsersRepository usersRepository, RecruiterProfileService recruiterProfileService) {
+        this.usersRepository = usersRepository;
+        this.recruiterProfileService = recruiterProfileService;
+    }
+
+    @GetMapping("/")
+    public String recruiterProfile(Model model) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (!(authentication instanceof AnonymousAuthenticationToken)) {
+            String currentUsername = authentication.getName();
+            Users users = usersRepository.findByEmail(currentUsername).orElseThrow(() -> new UsernameNotFoundException("Could not " + "found user"));
+            Optional<RecruiterProfile> recruiterProfile = recruiterProfileService.getOne(users.getUserId());
+
+            if (!recruiterProfile.isEmpty())
+                model.addAttribute("profile", recruiterProfile.get());
+
+        }
+
+        return "recruiter_profile";
+    }
+
+    @PostMapping("/addNew")
+    public String addNew(RecruiterProfile recruiterProfile, @RequestParam("image") MultipartFile multipartFile, Model model) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (!(authentication instanceof AnonymousAuthenticationToken)) {
+            String currentUsername = authentication.getName();
+            Users users = usersRepository.findByEmail(currentUsername).orElseThrow(() -> new UsernameNotFoundException("Could not " + "found user"));
+            recruiterProfile.setUserId(users);
+            recruiterProfile.setUserAccountId(users.getUserId());
+        }
+        model.addAttribute("profile", recruiterProfile);
+        String fileName = "";
+        if (!multipartFile.getOriginalFilename().equals("")) {
+            fileName = StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
+            recruiterProfile.setProfilePhoto(fileName);
+        }
+        RecruiterProfile savedUser = recruiterProfileService.addNew(recruiterProfile);
+
+        String uploadDir = "photos/recruiter/" + savedUser.getUserAccountId();
+        try {
+            FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        return "redirect:/dashboard/";
+    }
 }
