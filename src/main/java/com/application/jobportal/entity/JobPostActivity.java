@@ -1,0 +1,180 @@
+package com.application.jobportal.entity;
+
+
+import java.sql.Date;
+
+import org.hibernate.validator.constraints.Length;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Transient;
+
+@Entity
+public class JobPostActivity {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer jobPostId;
+	
+	@ManyToOne
+	@JoinColumn(name="postedById", referencedColumnName = "userId")
+	private Users postedById;
+	
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name="jobLocationId", referencedColumnName = "Id")
+	private JobLocation jobLocationId;
+	
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "jobCompanyId",referencedColumnName = "Id")
+	private JobCompany jobCompanyId;
+	
+	@Transient
+	private boolean isActive;
+	@Transient
+	private boolean isSaved;
+	@Length(max=10000)
+	private String descriptionOfJob;
+	
+	private String JobType;
+	private String salary;
+	private String remote;
+	@DateTimeFormat(pattern = "dd-MM-yyyy")
+	private Date postedDate;
+	private String jobTitle;
+	
+	public JobPostActivity() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public JobPostActivity(Integer jobPostId, Users postedById, JobLocation jobLocationId, JobCompany jobCompanyId,
+			boolean isActive, boolean isSaved, @Length(max = 10000) String descriptionOfJob, String jobType,
+			String salary, String remote, Date postedDate, String jobTitle) {
+		super();
+		this.jobPostId = jobPostId;
+		this.postedById = postedById;
+		this.jobLocationId = jobLocationId;
+		this.jobCompanyId = jobCompanyId;
+		this.isActive = isActive;
+		this.isSaved = isSaved;
+		this.descriptionOfJob = descriptionOfJob;
+		JobType = jobType;
+		this.salary = salary;
+		this.remote = remote;
+		this.postedDate = postedDate;
+		this.jobTitle = jobTitle;
+	}
+
+	public Integer getJobPostId() {
+		return jobPostId;
+	}
+
+	public void setJobPostId(Integer jobPostId) {
+		this.jobPostId = jobPostId;
+	}
+
+	public Users getPostedById() {
+		return postedById;
+	}
+
+	public void setPostedById(Users postedById) {
+		this.postedById = postedById;
+	}
+
+	public JobLocation getJobLocationId() {
+		return jobLocationId;
+	}
+
+	public void setJobLocationId(JobLocation jobLocationId) {
+		this.jobLocationId = jobLocationId;
+	}
+
+	public JobCompany getJobCompanyId() {
+		return jobCompanyId;
+	}
+
+	public void setJobCompanyId(JobCompany jobCompanyId) {
+		this.jobCompanyId = jobCompanyId;
+	}
+
+	public boolean isActive() {
+		return isActive;
+	}
+
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
+	}
+
+	public boolean isSaved() {
+		return isSaved;
+	}
+
+	public void setSaved(boolean isSaved) {
+		this.isSaved = isSaved;
+	}
+
+	public String getDescriptionOfJob() {
+		return descriptionOfJob;
+	}
+
+	public void setDescriptionOfJob(String descriptionOfJob) {
+		this.descriptionOfJob = descriptionOfJob;
+	}
+
+	public String getJobType() {
+		return JobType;
+	}
+
+	public void setJobType(String jobType) {
+		JobType = jobType;
+	}
+
+	public String getSalary() {
+		return salary;
+	}
+
+	public void setSalary(String salary) {
+		this.salary = salary;
+	}
+
+	public String getRemote() {
+		return remote;
+	}
+
+	public void setRemote(String remote) {
+		this.remote = remote;
+	}
+
+	public Date getPostedDate() {
+		return postedDate;
+	}
+
+	public void setPostedDate(Date postedDate) {
+		this.postedDate = postedDate;
+	}
+
+	public String getJobTitle() {
+		return jobTitle;
+	}
+
+	public void setJobTitle(String jobTitle) {
+		this.jobTitle = jobTitle;
+	}
+
+	@Override
+	public String toString() {
+		return "JobPostActivity [jobPostId=" + jobPostId + ", postedById=" + postedById + ", jobLocationId="
+				+ jobLocationId + ", jobCompanyId=" + jobCompanyId + ", isActive=" + isActive + ", isSaved=" + isSaved
+				+ ", descriptionOfJob=" + descriptionOfJob + ", JobType=" + JobType + ", salary=" + salary + ", remote="
+				+ remote + ", postedDate=" + postedDate + ", jobTitle=" + jobTitle + "]";
+	}
+
+	
+	
+		
+}
