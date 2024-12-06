@@ -14,10 +14,10 @@ import jakarta.persistence.Table;
 public class Skills {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private Integer id;
 	private String name;
 	private String experienceLevel;
-	private String yearOfExperience;
+	private String yearsOfExperience;
 	
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "job_seeker_profile")
@@ -27,21 +27,21 @@ public class Skills {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Skills(int id, String name, String experienceLevel, String yearOfExperience,
+	public Skills(Integer id, String name, String experienceLevel, String yearsOfExperience,
 			JobSeekerProfile jobSeekerProfile) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.experienceLevel = experienceLevel;
-		this.yearOfExperience = yearOfExperience;
+		this.yearsOfExperience = yearsOfExperience;
 		this.jobSeekerProfile = jobSeekerProfile;
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -61,12 +61,12 @@ public class Skills {
 		this.experienceLevel = experienceLevel;
 	}
 
-	public String getYearOfExperience() {
-		return yearOfExperience;
+	public String getYearsOfExperience() {
+		return yearsOfExperience;
 	}
 
-	public void setYearOfExperience(String yearOfExperience) {
-		this.yearOfExperience = yearOfExperience;
+	public void setYearsOfExperience(String yearOfExperience) {
+		this.yearsOfExperience = yearOfExperience;
 	}
 
 	public JobSeekerProfile getJobSeekerProfile() {
@@ -79,8 +79,8 @@ public class Skills {
 
 	@Override
 	public String toString() {
-		return "Skills [id=" + id + ", name=" + name + ", experienceLevel=" + experienceLevel + ", yearOfExperience="
-				+ yearOfExperience + ", jobSeekerProfile=" + jobSeekerProfile + "]";
+		return "Skills [id=" + id + ", name=" + name + ", experienceLevel=" + experienceLevel + ", yearsOfExperience="
+				+ yearsOfExperience + ", jobSeekerProfile=" + jobSeekerProfile + "]";
 	}
 	
 	
